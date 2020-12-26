@@ -17,7 +17,7 @@ Pix_Table::setLongQueryTime(3);
 date_default_timezone_set('Asia/Taipei');
 
 
-if (preg_match('#pgsql://([^:]*):([^@]*)@([^/]*)/(.*)#', strval(getenv('PGSQL_DATABASE_URL')), $matches)) {
+if (preg_match('#pgsql://([^:]*):([^@]*)@([^/]*)/(.*)#', strval(getenv('DATABASE_URL')), $matches)) {
     $options = array(
         'host' => $matches[3],
         'user' => $matches[1],
