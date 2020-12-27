@@ -19,4 +19,9 @@ class Meeting extends Pix_Table
         $this->addIndex('term_period_times', array('term', 'session_period', 'session_times', 'meeting_times', 'session_type'), 'unique');
 
     }
+
+    public static function searchByYearMonth($year, $month)
+    {
+        return Meeting::search(sprintf("dates::text LIKE '%%%04d-%02d-%%'", intval($year), intval($month)));
+    }
 }
