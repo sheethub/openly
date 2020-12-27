@@ -1,0 +1,28 @@
+<?= $this->partial('/common/header.phtml', $this) ?>
+<h1><?= $this->escape($this->meeting->getName()) ?></h1>
+日期：<?= implode(',', json_decode($this->meeting->dates)) ?><br>
+<ul class="nav nav-tabs">
+    <?php foreach (MeetingMenu::search(array('meeting_id' => $this->meeting->meeting_id))->order('meeting_no ASC') as $mmenu) { ?>
+    <li class="nav-item">
+    <a class="nav-link<?= $mmenu->meetingmenu_id == $this->mmenu->meetingmenu_id ? ' active': '' ?>" aria-current="page" href="/meeting/show/<?= $this->meeting->meeting_id ?>/<?= $mmenu->meetingmenu_id ?>"><?= $this->escape($mmenu->title) ?></a>
+    </li>
+    <?php } ?>
+</ul>
+
+<ul>
+    <?php foreach (MeetingAgenda::search(array('meetingmenu_id' => $this->mmenu->meetingmenu_id))->order('meetingagenda_id ASC')  as $magenda) { ?>
+    <?php $d = json_decode($magenda->data) ?>
+    <li>
+
+    <h3><?= $this->escape($d->title) ?></h3>
+    <?php if ($d->opinion) { ?>
+    <p>程序委員會意見/議事處意見：<?= $this->escape($d->opinion) ?></p>
+    <?php } ?>
+    <?php if ($d->mapping_bill) {?>
+    <p>關係文書：<?= $this->escape($d->mapping_bill) ?></p>
+    <?php } ?>
+    </li>
+    <?php } ?>
+</ul>
+
+<?= $this->partial('/common/footer.phtml', $this) ?>
