@@ -1,3 +1,25 @@
+<?php
+$datepicker = new StdClass;
+$datepicker->year = date('Y');
+$datepicker->month = date('m');
+$datepicker->events = array();
+$terms = array();
+foreach (Meeting::searchByYearMonth($datepicker->year, $datepicker->month) as $meeting) {
+    $dates = json_decode($meeting->dates);
+    foreach ($dates as $d) {
+        if (strpos($d, sprintf("%04d-%02d-", $datepicker->year, $datepicker->month)) !== 0) {
+            continue;
+        }
+        $datepicker->events[] = array($d, $meeting->getName(), '/meeting/show/' . $meeting->meeting_id);
+    }
+}
+?>
 <?= $this->partial('common/header.phtml', $this) ?>
+<div class="row">
+    <div class="col-sm">
+        <?= $this->partial('common/datepicker.phtml', $datepicker) ?>
+    </div>
+    <div class="col-sm">
+    </div>
+</div>
 <?= $this->partial('common/footer.phtml', $this) ?>
-
