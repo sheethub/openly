@@ -1,0 +1,68 @@
+<?php
+$first_weekday = date('w', mktime(0, 0, 0, $this->month, 1, $this->year));
+$start_day = -1 * $first_weekday + 1;
+$next_month_day = mktime(0, 0, 0, $this->month, 1, $this->year) + 40 * 86400;
+$end_day = date('d', mktime(0, 0, 0, date('m', $next_month_day), 1, date('Y', $next_month_day)) - 86400);
+$events = array();
+for ($d = 0; $d <= $end_day; $d ++) {
+    $events[$d] = array();
+}
+foreach ($this->events as $event) {
+    list($d, $name, $link) = $event;
+    $events[explode('-', $d)[2]][] = array($name, $link);
+}
+
+?>
+<table class="table">
+    <thead>
+        <tr>
+            <th colspan="7"><?= $this->year ?> 年 <?= $this->month ?> 月</th>
+        </tr>
+        <tr>
+            <th>日</th>
+            <th>一</th>
+            <th>二</th>
+            <th>三</th>
+            <th>四</th>
+            <th>五</th>
+            <th>六</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php for ($week = 0; ; $week ++) { ?>
+    <tr>
+        <?php for ($wd = 0; $wd < 7; $wd ++) { ?>
+            <?php $d = $week * 7 + $wd + $start_day ?>
+            <?php if ($d <= 0 or $d > $end_day) { ?>
+                <td></td>
+            <?php } else { ?>
+                <?php if (count($events[$d])) { ?>
+                <td class="datepicker-day-with-bussiness" data-title="<?= sprintf("%04d-%02d-%02d", $this->year, $this->month, $d) ?> 的會議" data-events="<?= $this->escape(json_encode($events[$d])) ?>"><a href="#"><?= $d ?></a></td>
+                <?php } else { ?>
+                    <td><?= $d ?></td>
+                <?php } ?>
+            <?php } ?>
+        <?php } ?>
+    </tr>
+    <?php if ($week * 7 + $wd + $start_day > $end_day) break; ?>
+    <?php } ?>
+    </tbody>
+</table>
+<div id="datepicker-info">
+    <h2></h2>
+    <ol>
+    </ol>
+</div>
+<script>
+$('.datepicker-day-with-bussiness').click(function(e){
+    e.preventDefault();
+    $('#datepicker-info h2').text($(this).data('title'));
+    $('#datepicker-info ol').html('');
+    var events = ($(this).data('events'));
+    for (var event of events) {
+        var a_dom = $('<a></a>');
+        a_dom.text(event[0]).attr('href', event[1]);
+        $('#datepicker-info ol').append($('<li></li>').append(a_dom));
+    }
+});
+</script>
