@@ -94,10 +94,12 @@ foreach (Meeting::search(1) as $meeting) {
 }
 error_log("更新議事日程目錄完成");
 
-foreach (MeetingMenu::search(1) as $meeting_menu) {
+foreach (MeetingMenu::search(1)->order('meetingmenu_id ASC') as $meeting_menu) {
     $d = json_decode($meeting_menu->data);
     $meeting = Meeting::find($meeting_menu->meeting_id);
-    if ($d->agenda_fetch_at) {
+    if (!$d->agenda_fetch_at) {
+    } else if (time() - $d->agenda_fetch_at < 86400 * 7 and  count(MeetingAgenda::search(array('meetingmenu_id' => $meeting_menu)))) {
+    } else {
         continue;
     }
 
