@@ -16,6 +16,10 @@ Pix_Table::setLongQueryTime(3);
 // TODO: 之後要搭配 geoip
 date_default_timezone_set('Asia/Taipei');
 
+if (!getenv('DATA_PATH')) {
+    mkdir("/tmp/lydata");
+    putenv("DATA_PATH=/tmp/lydata");
+}
 
 if (preg_match('#pgsql://([^:]*):([^@]*)@([^/]*)/(.*)#', strval(getenv('DATABASE_URL')), $matches)) {
     $options = array(
