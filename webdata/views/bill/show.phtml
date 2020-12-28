@@ -1,0 +1,25 @@
+<?php
+$bill_data = json_decode($this->bill->data);
+?>
+<?= $this->partial('/common/header.phtml', $this) ?>
+<h1><?= $this->escape($bill_data->detail->{'議案名稱'}) ?></h1>
+<dl class="row">
+    <dt class="col-sm-3">提案人</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'提案人'}) ?></dd>
+
+    <dt class="col-sm-3">連署人</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'連署人'}) ?></dd>
+
+    <dt class="col-sm-3">議案狀態</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'議案狀態'}) ?></dd>
+
+    <dt class="col-sm-3">提案委員</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'提案委員'}) ?></dd>
+
+    <dt class="col-sm-3">原始資料</dt>
+    <dd class="col-sm-9"><a href="https://misq.ly.gov.tw/MISQ/IQuery/misq5000QueryBillDetail.action?billNo=<?= urlencode($this->bill->billno) ?>">misq</a></dd>
+
+</dl>
+
+<?= $this->partial('/common/footer.phtml', $this) ?>
+
