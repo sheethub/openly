@@ -97,9 +97,11 @@ error_log("更新議事日程目錄完成");
 foreach (MeetingMenu::search(1)->order('meetingmenu_id ASC') as $meeting_menu) {
     $d = json_decode($meeting_menu->data);
     $meeting = Meeting::find($meeting_menu->meeting_id);
-    if (!$d->agenda_fetch_at) {
-    } else if (time() - $d->agenda_fetch_at < 86400 * 7 and  count(MeetingAgenda::search(array('meetingmenu_id' => $meeting_menu)))) {
-    } else {
+    if (time() - $d->agenda_fetch_at > 7 * 86400) {
+        // skip fetched
+        continue;
+    } else if ($d->agenda_fetch_at and count(MeetingAgenda::search(array('meetingmenu_id' => $meeting_menu)))) {
+        // skip crawled
         continue;
     }
 
