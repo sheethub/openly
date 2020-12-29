@@ -39,3 +39,5 @@ if (preg_match('#pgsql://([^:]*):([^@]*)@([^/]*)/(.*)#', strval(getenv('DATABASE
     $config->master = $config->slave = $db;
     Pix_Table::setDefaultDb(new Pix_Table_Db_Adapter_MysqlConf(array($config)));
 }
+
+Pix_Table::addStaticResultSetHelper('Pix_Array_Volume');
