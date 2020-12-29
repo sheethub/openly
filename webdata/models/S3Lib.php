@@ -28,4 +28,14 @@ class S3Lib
             'CacheControl' => 'max-age=31536000,public'
         ]);
     }
+
+    public static function get($target_path)
+    {
+        $s3 = self::getS3();
+        $result = $s3->getObject([
+            'Bucket' => 'twlydata',
+            'Key' => $target_path,
+        ]);
+        return $result['Body'];
+    }
 }
