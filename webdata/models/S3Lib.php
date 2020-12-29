@@ -22,7 +22,7 @@ class S3Lib
         $ret = $s3->putObject([
             'Bucket' => 'twlydata',
             'Key' => $target_path,
-            'Body' => file_get_contents($local_file),
+            'Body' => fopen($local_file, 'r'),
             'ACL' => 'public-read',
             'ContentType' => mime_content_type($local_file),
             'CacheControl' => 'max-age=31536000,public'
