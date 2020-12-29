@@ -117,8 +117,8 @@ class Parser
                 $record->{'提案人'} = preg_replace('/^提案人：/u', '', trim($p_dom->nodeValue));
             } else if (strpos(trim($p_dom->nodeValue), '連署人：') === 0) {
                 $record->{'連署人'} = preg_replace('/^連署人：/u', '', trim($p_dom->nodeValue));
-            } else if (in_array(self::onlystr($p_dom->nodeValue), array('修正條文', '增訂條文', '條文', '審查會通過條文', '審查會通過'))) {
-                if (in_array(self::onlystr($p_dom->nodeValue), array('審查會通過', '審查會通過條文'))) {
+            } else if (in_array(self::onlystr($p_dom->nodeValue), array('修正條文', '增訂條文', '條文', '審查會通過條文', '審查會通過', '審查會條文'))) {
+                if (in_array(self::onlystr($p_dom->nodeValue), array('審查會通過', '審查會條文', '審查會通過條文'))) {
                     $record->{'立法種類'} = '審查會版本';
                     // TODO: 審查會通過條文 (處理多筆字號)
                     unset($record->{'字號'});
@@ -168,12 +168,12 @@ class Parser
                     }
                     if ($only_first) {
                         $record->{'對照表標題'} = self::onlystr($td_doms[0]->nodeValue);
-                    } else if (in_array(self::onlystr($td_doms[0]->nodeValue), array('審查會通過條文', '審查會通過'))) {
+                    } else if (in_array(self::onlystr($td_doms[0]->nodeValue), array('審查會通過條文', '審查會通過', '審查會條文'))) {
                         // TODO: 審查會通過條文 (處理多筆字號)
                         unset($record->{'字號'});
                         $columns = array();
                         foreach ($td_doms as $idx => $td_dom) {
-                            if (in_array(self::onlystr($td_dom->nodeValue), array('審查會通過條文', '審查會通過'))) {
+                            if (in_array(self::onlystr($td_dom->nodeValue), array('審查會通過條文', '審查會通過', '審查會條文'))) {
                                 $columns['審查會通過條文'] = $idx;
                             } else if (in_array(self::onlystr($td_dom->nodeValue), array('現行條文', '現行法條文', '現行法'))) {
                                 $columns['現行條文'] = $idx;
