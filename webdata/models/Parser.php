@@ -97,7 +97,6 @@ class Parser
 
         $doc = new DOMDocument;
         @$doc->loadHTML($content);
-        $is_merge = false;
         foreach ($doc->getElementsByTagName('p') as $p_dom) {
             if (strpos(trim($p_dom->nodeValue), '院總第') === 0) {
                 $tr_dom = $p_dom->parentNode;
@@ -105,12 +104,7 @@ class Parser
                     $tr_dom = $tr_dom->parentNode;
                 }
                 // TODO: 審查報告的字號可能會有多筆
-                if (!$is_merge) {
-                    $record->{'字號'} = self::onlystr($tr_dom->nodeValue);
-                }
-            } else if (preg_match('/^　+議案編號：/u', trim($p_dom->nodeValue))) {
-                $is_merge = true;
-                unset($record->{'字號'});
+                $record->{'字號'} = self::onlystr($tr_dom->nodeValue);
             } else if (strpos(trim($p_dom->nodeValue), '案由：') === 0) {
                 $record->{'案由'} = preg_replace('/^案由：/u', '', trim($p_dom->nodeValue));
             } else if (strpos(trim($p_dom->nodeValue), '提案人：') === 0) {
