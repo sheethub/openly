@@ -1,3 +1,10 @@
+<?php
+$agendas = array();
+foreach (MeetingAgenda::search(array('meetingmenu_id' => $this->mmenu->meetingmenu_id))->order('meetingagenda_id ASC')  as $magenda) {
+    $agendas[] = $magenda;
+    $d = json_decode($magenda->data);
+}
+?>
 <?= $this->partial('/common/header.phtml', $this) ?>
 <h1><?= $this->escape($this->meeting->getName()) ?></h1>
 日期：<?= implode(',', json_decode($this->meeting->dates)) ?><br>
@@ -10,7 +17,7 @@
 </ul>
 
 <ul>
-    <?php foreach (MeetingAgenda::search(array('meetingmenu_id' => $this->mmenu->meetingmenu_id))->order('meetingagenda_id ASC')  as $magenda) { ?>
+    <?php foreach ($agendas as $magenda) { ?>
     <?php $d = json_decode($magenda->data) ?>
     <li>
 
