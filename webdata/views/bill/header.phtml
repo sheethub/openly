@@ -1,0 +1,34 @@
+<?php
+$bill_data = json_decode($this->bill->data);
+$features = array(
+    'show' => '詳情',
+    'doc' => '關係文書',
+    'compare' => '法律對照表',
+    'history' => '修法歷程',
+    'final' => '三讀版本',
+);
+?>
+<h1><?= $this->escape($bill_data->detail->{'議案名稱'}) ?></h1>
+<dl class="row">
+    <dt class="col-sm-3">提案人</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'提案人'}) ?></dd>
+
+    <dt class="col-sm-3">連署人</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'連署人'}) ?></dd>
+
+    <dt class="col-sm-3">議案狀態</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'議案狀態'}) ?></dd>
+
+    <dt class="col-sm-3">提案委員</dt>
+    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'提案委員'}) ?></dd>
+
+    <dt class="col-sm-3">原始資料</dt>
+    <dd class="col-sm-9"><a href="https://misq.ly.gov.tw/MISQ/IQuery/misq5000QueryBillDetail.action?billNo=<?= urlencode($this->bill->billno) ?>">misq</a></dd>
+
+    <ul class="nav nav-tabs">
+        <?php foreach ($features as $k => $v) { ?>
+        <li class="nav-item"><a class="nav-link<?= $k == $this->tab ? ' active':'' ?>" href="/bill/<?= $k ?>/<?= $this->bill->billno ?>"><?= $v ?></a></li>
+        <?php } ?>
+    </ul>
+
+</dl>
