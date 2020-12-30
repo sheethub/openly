@@ -48,8 +48,10 @@ class Bill extends Pix_Table
 
         $this->_columns['billno'] = array('type' => 'char', 'size' => 16);
         $this->_columns['wordno'] = array('type' => 'varchar', 'size' => 64);
+        $this->_columns['docname'] = array('type' => 'varchar', 'size' => 64);
         $this->_columns['data'] = array('type' => 'jsonb');
 
         $this->addIndex('wordno', array('wordno'));
+        $this->addIndex('docname', array('docname'));
     }
 }
