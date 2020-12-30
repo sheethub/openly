@@ -1,0 +1,29 @@
+<?php
+$bill_data = json_decode($this->bill->data);
+$this->tab = 'doc';
+
+?>
+<?= $this->partial('/common/header.phtml', $this) ?>
+<?= $this->partial('/bill/header.phtml', $this) ?>
+<?php 
+$record = new StdClass;
+foreach ($this->objs as $idx => $obj) {
+    $content = base64_decode($obj->content);
+    $content = preg_replace_callback('#<IMG SRC="([^"]*)"#', function($matches) use ($idx){
+        $url = $matches[1];
+        return sprintf("<IMG SRC=\"?img=%s&idx=%s\"",
+            urlencode($url),
+            urlencode($idx)
+        );
+    }, $content);
+    echo $content;
+    echo "<hr>";
+    foreach (Parser::parseBillDoc($billno, $content) as $k => $v) {
+        $record->{$k} = $v;
+    }
+}
+
+echo "<pre>" . htmlspecialchars(var_export($record, true)) . "</pre>";
+?>
+<?= $this->partial('/common/footer.phtml', $this) ?>
+
