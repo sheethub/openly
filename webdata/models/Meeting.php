@@ -47,6 +47,6 @@ class Meeting extends Pix_Table
     {
         $sql = "SELECT JSONB_ARRAY_ELEMENTS(dates) AS d FROM meeting ORDER BY d DESC LIMIT 1;";
         $res = Meeting::getDb()->query($sql);
-        return $res->fetch_array()[0];
+        return json_decode($res->fetch_array()[0]);
     }
 }
