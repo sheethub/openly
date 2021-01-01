@@ -21,6 +21,20 @@ foreach (Meeting::searchByYearMonth($datepicker->year, $datepicker->month) as $m
         <?= $this->partial('common/datepicker.phtml', $datepicker) ?>
     </div>
     <div class="col-sm">
+        <h3>本站資料概況</h3>
+        <dl class="row">
+            <dt class="col-sm-3">議案數</dt>
+            <dd class="col-sm-9"><?= count(Bill::search(1)) ?></dt>
+
+            <dt class="col-sm-3">最新議案日期</dt>
+            <dd class="col-sm-9"><?= substr(Bill::search(1)->max('billno')->billno, 0, 7) ?></dt>
+
+            <dt class="col-sm-3">議事日程數</dt>
+            <dd class="col-sm-9"><?= count(Meeting::search(1)) ?></dt>
+
+            <dt class="col-sm-3">最新議事日程</dt>
+            <dd class="col-sm-9"><?= Meeting::getLatestMeetingDate() ?></dd>
+        </dl>
     </div>
 </div>
 <?= $this->partial('common/footer.phtml', $this) ?>
