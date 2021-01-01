@@ -54,4 +54,9 @@ class Bill extends Pix_Table
         $this->addIndex('wordno', array('wordno'));
         $this->addIndex('docname', array('docname'));
     }
+
+    public static function findBill($billno)
+    {
+        return Bill::find(substr($billno, 0, -2) . '00');
+    }
 }
