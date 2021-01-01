@@ -1,7 +1,8 @@
 <?php
+$latest_date = Meeting::getLatestMeetingDate();
 $datepicker = new StdClass;
-$datepicker->year = date('Y');
-$datepicker->month = date('m');
+$datepicker->year = explode('-', $latest_date)[0];
+$datepicker->month = explode('-', $latest_date)[1];
 $datepicker->events = array();
 $terms = array();
 foreach (Meeting::searchByYearMonth($datepicker->year, $datepicker->month) as $meeting) {
