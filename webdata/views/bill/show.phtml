@@ -4,6 +4,17 @@ $this->tab = 'show';
 ?>
 <?= $this->partial('/common/header.phtml', $this) ?>
 <?= $this->partial('/bill/header.phtml', $this) ?>
-這是詳情
+<h3>關聯議案</h3>
+<ul>
+    <?php foreach ($bill_data->detail->{'關連議案'} as $record) { ?>
+    <?php if (!$rbill = Bill::findBill($record->billNo)) continue; ?>
+    <li>
+    <?php if ($rbill->wordno) { ?>
+    [<?= $this->escape($rbill->wordno) ?>]
+    <?php } ?>
+    <a href="/bill/show/<?= $rbill->billno ?>"><?= $this->escape($record->{'提案人'}) ?></a>
+    </li>
+<?php } ?>
+</ul>
 <?= $this->partial('/common/footer.phtml', $this) ?>
 
