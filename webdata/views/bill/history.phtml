@@ -1,0 +1,29 @@
+<?php
+$bill_data = json_decode($this->bill->data);
+$this->tab = 'history';
+
+?>
+<?= $this->partial('/common/header.phtml', $this) ?>
+<?= $this->partial('/bill/header.phtml', $this) ?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>會期</th>
+            <th>狀態</th>
+            <th>院會/委員會</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($bill_data->detail->{'議案流程'} as $record) { ?>
+    <tr>
+        <td><?= $this->escape(implode(', ', $record->{'日期'})) ?></td>
+        <td><?= $this->escape($record->{'會期'}) ?></td>
+        <td><?= $this->escape($record->{'狀態'}) ?></td>
+        <td><?= $this->escape($record->{'院會/委員會'}) ?></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?= $this->partial('/common/footer.phtml', $this) ?>
+
