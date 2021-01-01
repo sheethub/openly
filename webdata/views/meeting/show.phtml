@@ -1,8 +1,44 @@
 <?php
+Pix_Table::enableLog(Pix_Table::LOG_QUERY);
 $agendas = array();
+$doc_links = array();
+$wordnos = array();
+$agenda_bills = array();
 foreach (MeetingAgenda::search(array('meetingmenu_id' => $this->mmenu->meetingmenu_id))->order('meetingagenda_id ASC')  as $magenda) {
-    $agendas[] = $magenda;
+    $agendas[$magenda->meetingagenda_id] = $magenda;
     $d = json_decode($magenda->data);
+    if ($d->doc_link) {
+        $doc_links[basename($d->doc_link)] = $magenda->meetingagenda_id;
+    }
+    if ($d->mapping_bill and strpos($d->mapping_bill, '[') === false) {
+        $wordnos[$d->mapping_bill] = $magenda->meetingagenda_id;
+    }
+    $agenda_bills[$magenda->meetingagenda_id] = array();
+}
+if ($doc_links) {
+    $billdocmaps = BillDocMap::search(1)->searchIn('docname', array_keys($doc_links))->toArray();
+    // prefetch
+    Bill::search(1)->searchIn('billno', (array_map(function($a) { return $a['billno']; } ,$billdocmaps)))->toArray();;
+    foreach ($billdocmaps as $billdocmap) {
+        $bill = Bill::find($billdocmap['billno']);
+        $meetingagenda_id = $doc_links[$billdocmap['docname']];
+        $agenda = $agendas[$meetingagenda_id];
+        $agenda_data =json_decode($agenda->data);
+        if ($bill->wordno == $agenda_data->mapping_bill) {
+            $agenda_bills[$agenda->meetingagenda_id][$bill->billno] = array('關係文書', $bill->billno);
+        } else {
+            $agenda_bills[$agenda->meetingagenda_id][$bill->billno] = array('審查報告', $bill->billno);
+        }
+    }
+}
+if ($wordnos) {
+    foreach (Bill::search(1)->searchIn('wordno', array_keys($wordnos)) as $bill) {
+        $meetingagenda_id = $wordnos[$bill->wordno];
+        if (!array_key_exists($bill->billno, $agenda_bills[$meetingagenda_id])) {
+            $agenda_bills[$meetingagenda_id][$bill->billno] = array('關係文書', $bill->billno);
+        }
+        
+    }
 }
 ?>
 <?= $this->partial('/common/header.phtml', $this) ?>
@@ -25,8 +61,11 @@ foreach (MeetingAgenda::search(array('meetingmenu_id' => $this->mmenu->meetingme
     <?php if ($d->opinion) { ?>
     <p>程序委員會意見/議事處意見：<?= $this->escape($d->opinion) ?></p>
     <?php } ?>
-    <?php if ($d->mapping_bill) {?>
-    <p>關係文書：<?= $this->escape($d->mapping_bill) ?></p>
+    <?php if ($agenda_bills[$magenda->meetingagenda_id]) {?>
+        <?php foreach ($agenda_bills[$magenda->meetingagenda_id] as $name_bill) { ?>
+        <a href="/bill/show/<?= $this->escape($name_bill[1]) ?>"><?= $this->escape($name_bill[0]) ?></a>
+        <?php } ?>
+
     <?php } ?>
     </li>
     <?php } ?>
