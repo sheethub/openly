@@ -12,8 +12,6 @@ foreach ($doc->getElementsByTagName('td') as $td_dom) {
     if (strpos($td_dom->getAttribute('onclick'), 'queryLcivMaster') === false) {
         continue;
     }
-    // XXX
-    continue;
     preg_match('#queryLcivMaster\(\'(.*)\'\);#', $td_dom->getAttribute('onclick'), $matches);
     $terms = explode("','", $matches[1]);
     list($term, $session_period, $session_times, $session_type, $meeting_times) = $terms;
@@ -94,10 +92,10 @@ foreach (Meeting::search(1) as $meeting) {
 }
 error_log("更新議事日程目錄完成");
 
-foreach (MeetingMenu::search(1)->order('meetingmenu_id ASC') as $meeting_menu) {
+foreach (MeetingMenu::search(1)->order('meetingmenu_id DESC') as $meeting_menu) {
     $d = json_decode($meeting_menu->data);
     $meeting = Meeting::find($meeting_menu->meeting_id);
-    if (time() - $d->agenda_fetch_at > 7 * 86400) {
+    if ($d->agenda_fetch_at and time() - $d->agenda_fetch_at > 7 * 86400) {
         // skip fetched
         continue;
     } else if ($d->agenda_fetch_at and count(MeetingAgenda::search(array('meetingmenu_id' => $meeting_menu)))) {
@@ -126,6 +124,7 @@ foreach (MeetingMenu::search(1)->order('meetingmenu_id ASC') as $meeting_menu) {
     $doc = new DOMDocument;
     @$doc->loadHTML($content);
     $tbody_dom = $doc->getElementsByTagName('tbody')->item(0);
+    $updated = false;
 
     if ($tbody_dom) {
         foreach ($tbody_dom->getElementsByTagName('tr') as $tr_dom) {
@@ -162,8 +161,11 @@ foreach (MeetingMenu::search(1)->order('meetingmenu_id ASC') as $meeting_menu) {
                 'meetingmenu_id' => $meeting_menu->meetingmenu_id,
                 'data' => json_encode($data),
             ));
+            $updated = true;
         }
     }
-    $d->agenda_fetch_at = time();
-    $meeting_menu->update(array('data' => json_encode($d)));
+    if ($updated) {
+        $d->agenda_fetch_at = time();
+        $meeting_menu->update(array('data' => json_encode($d)));
+    }
 }
