@@ -1,0 +1,38 @@
+<?php
+$bill_data = json_decode($this->bill->data);
+$this->tab = 'compare';
+
+?>
+<?= $this->partial('/common/header.phtml', $this) ?>
+<?= $this->partial('/bill/header.phtml', $this) ?>
+<?php if (!$billdoc = BillDoc::find($this->bill->billno)) { ?>
+尚未解析出關係文書內容
+<?php } else { ?>
+<?php $docdata = json_decode($billdoc->data) ?>
+
+<?php if ($docdata->{'對照表標題'}) { ?>
+<h3><?= $this->escape($docdata->{'對照表標題'}) ?></h3>
+<?php } ?>
+
+<table class="table border">
+    <thead>
+        <tr>
+            <th width="50%">修正條文</th>
+            <th width="50%">現行條文</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($docdata->{'修正記錄'} as $record) { ?>
+    <tr>
+        <td><?= $this->escape($record->{'修正條文'}) ?></td>
+        <td><?= $this->escape($record->{'現行條文'}) ?></td>
+    </tr>
+    <tr>
+        <td colspan="2"><div class="alert alert-info"><?= $this->Escape($record->{'說明'}) ?></div></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?php } ?>
+<?= $this->partial('/common/footer.phtml', $this) ?>
+

@@ -11,6 +11,15 @@ class BillController extends Pix_Controller
         $this->view->bill = $bill;
     }
 
+    public function compareAction()
+    {
+        list(, /*bill*/, /*compare*/, $id) = explode('/', $this->getURI());
+        if (!$bill = Bill::find(strval($id))) {
+            return $this->notfound();
+        }
+        $this->view->bill = $bill;
+    }
+
     public function docAction()
     {
         list(, /*bill*/, /*doc*/, $billno) = explode('/', $this->getURI());
