@@ -42,4 +42,11 @@ class Meeting extends Pix_Table
     {
         return Meeting::search(sprintf("dates::text LIKE '%%%04d-%02d-%%'", intval($year), intval($month)));
     }
+
+    public static function getLatestMeetingDate()
+    {
+        $sql = "SELECT JSONB_ARRAY_ELEMENTS(dates) AS d FROM meeting ORDER BY d DESC LIMIT 1;";
+        $res = Meeting::getDb()->query($sql);
+        return $res->fetch_array()[0];
+    }
 }
