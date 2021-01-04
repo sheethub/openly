@@ -2,7 +2,7 @@
 
 class SearchLib
 {
-    public function searchBill($name, $page = 1)
+    public static function searchBill($name, $page = 1)
     {
         $curl = curl_init();
         $from = 20 * ($page - 1);
