@@ -1,0 +1,12 @@
+{
+    "bill": {
+        "properties": {
+            "第字號": {"type": "string", "index": "analyzed", "analyzer": "cjk"},
+            "提案人": {"type": "string", "index": "analyzed", "analyzer": "cjk"},
+            "議案名稱": {"type": "string", "index": "analyzed", "analyzer": "cjk"},
+            "連署人": {"type": "string", "index": "analyzed", "analyzer": "cjk"},
+            "案由": {"type": "string", "index": "analyzed", "analyzer": "cjk"},
+            "立法說明": {"type": "string", "index": "analyzed", "analyzer": "cjk"}
+        }
+    }
+}

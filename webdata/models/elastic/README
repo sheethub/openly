@@ -1,0 +1,5 @@
+搜尋引擎資料
+============
+* bill 議案資料
+  - curl -XPUT ${SEARCH_URL}/bill/_mapping -d '@bill.json'
+  - 重新匯入方式: php webdata/scripts/full-update-bill.php
