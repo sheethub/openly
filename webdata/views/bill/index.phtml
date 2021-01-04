@@ -2,4 +2,8 @@
 $this->type = 'bill';
 ?>
 <?= $this->partial('common/header.phtml', $this); ?>
+<form method="get" action="/bill/search">
+    搜尋議案：<input type="text" name="q">
+    <button type="submit">搜尋</button>
+</form>
 <?= $this->partial('common/footer.phtml', $this); ?>

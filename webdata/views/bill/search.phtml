@@ -1,0 +1,42 @@
+<?php
+$this->type = 'bill';
+$this->pagerBaseUri = '/bill/search?q=' . urlencode($this->search_word) . '&page=';
+?>
+<?= $this->partial('common/header.phtml', $this); ?>
+<form method="get" action="/bill/search">
+    搜尋議案：<input type="text" name="q" value="<?= $this->escape($this->search_word) ?>">
+    <button type="submit">搜尋</button>
+</form>
+<h2>搜尋，「<?= $this->escape($this->search_word) ?>」的結果，一共 <?= $this->search_result->hits->total ?> 筆</h2>
+<?= $this->partial('common/pager.phtml', $this) ?>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>議案名稱</th>
+            <th>提案人</th>
+            <th>會期</th>
+            <th>日期</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->search_result->hits->hits as $record) { ?>
+    <?php $bill = Bill::find($record->_id) ?>
+    <?php $bill_data = json_Decode($bill->data) ?>
+    <tr>
+        <td><a href="/bill/show/<?= $record->_id ?>"><?= $this->escape($record->_source->{'議案名稱'}) ?></a></td>
+        <td><?= $this->escape($record->_source->{'提案人'}) ?></td>
+        <td><?= $bill_data->detail->{'議案流程'}[0]->{'會期'} ?></td>
+        <td><?= implode(',', $bill_data->detail->{'議案流程'}[0]->{'日期'}) ?></td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <?php foreach ($record->highlight as $k => $v) { ?>
+            <?= implode('', $v) ?>
+            <?php } ?>
+        </td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?= $this->partial('common/pager.phtml', $this) ?>
+<?= $this->partial('common/footer.phtml', $this); ?>

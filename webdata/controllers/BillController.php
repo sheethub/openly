@@ -6,6 +6,19 @@ class BillController extends Pix_Controller
     {
     }
 
+    public function searchAction()
+    {
+        $page = intval($_GET['page']) ?: 1;
+        $word = strval($_GET['q']);
+
+        $ret = SearchLib::searchBill($word, $page);
+
+        $this->view->page = $page;
+        $this->view->max_page = ceil($ret->hits->total / 20);
+        $this->view->search_word = $word;
+        $this->view->search_result = $ret;
+    }
+
     public function showAction()
     {
         list(, /*bill*/, /*show*/, $id) = explode('/', $this->getURI());
