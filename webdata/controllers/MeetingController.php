@@ -2,6 +2,10 @@
 
 class MeetingController extends Pix_Controller
 {
+    public function indexAction()
+    {
+    }
+
     public function showAction()
     {
         list(,/*meeting*/, /*show*/, $id, $menu_id) = explode('/', $this->getURI());

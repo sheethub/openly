@@ -2,6 +2,10 @@
 
 class BillController extends Pix_Controller
 {
+    public function indexAction()
+    {
+    }
+
     public function showAction()
     {
         list(, /*bill*/, /*show*/, $id) = explode('/', $this->getURI());
