@@ -1,0 +1,24 @@
+<?php
+$this->type = 'legislator';
+?>
+<?= $this->partial('common/header.phtml', $this); ?>
+屆數：
+<ul class="nav">
+<?php for ($t = 2; $t <= $this->max_term; $t ++) { ?>
+
+<li class="nav-item">
+<a class="nav-link<?= ($t == $this->term) ? ' active': '' ?>" href="/legislator/term/<?= $t ?>">第<?= $t ?>屆</a>
+</li>
+<?php } ?>
+</ul>
+<hr>
+<?php foreach (Legislator::search(array('term' => $this->term)) as $legislator) { ?>
+<?php $data = json_decode($legislator->data) ?>
+<figure class="figure">
+    <img src="<?= $this->escape($data->picUrl) ?>" class="figure-img img-fluid rounded" alt="<?= $this->escape($legislator->name) ?>" width="100">
+    <figcaption class="figure-caption"><?= $this->escape($legislator->name) ?></figcaption>
+</figure>
+
+<?php } ?>
+
+<?= $this->partial('common/footer.phtml', $this); ?>
