@@ -1,6 +1,7 @@
 <?php
 $bill_data = json_decode($this->bill->data);
 $this->tab = 'doc';
+$this->type = 'bill';
 
 ?>
 <?= $this->partial('/common/header.phtml', $this) ?>

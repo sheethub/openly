@@ -19,22 +19,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">首頁</a>
+                <a class="nav-link<?= $this->type == 'index' ? ' active': '' ?>" aria-current="page" href="/">首頁</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/meeting/">會議</a>
+                <a class="nav-link<?= $this->type == 'meeting' ? ' active': '' ?>" href="/meeting/">會議</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/bill/">議案</a>
+                <a class="nav-link<?= $this->type == 'bill' ? ' active': '' ?>" href="/bill/">議案</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/gazette/">公報</a>
+                <a class="nav-link<?= $this->type == 'gazette' ? ' active': '' ?>" href="/gazette/">公報</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/law/">法律</a>
+                <a class="nav-link<?= $this->type == 'law' ? ' active': '' ?>" href="/law/">法律</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/legislator/">立法委員</a>
+                <a class="nav-link<?= $this->type == 'legislator' ? ' active': '' ?>" href="/legislator/">立法委員</a>
                 </li>
             </ul>
         </div>

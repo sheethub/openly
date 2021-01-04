@@ -1,4 +1,5 @@
 <?php
+$this->type = 'index';
 $latest_date = Meeting::getLatestMeetingDate();
 $datepicker = new StdClass;
 $datepicker->year = explode('-', $latest_date)[0];
