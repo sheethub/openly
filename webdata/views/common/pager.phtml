@@ -1,0 +1,18 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <?php if ($this->page > 1) { ?>
+        <li class="page-item"><a class="page-link" href="<?= $this->escape($this->pagerBaseUri . 1) ?>">&laquo;</a></li>
+        <?php } else { ?>
+        <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
+        <?php } ?>
+        <?php $start = max(1, min($this->max_page - 4, $this->page - 2)); ?>
+        <?php for ($i = $start; $i < min($this->max_page + 1, $start + 5); $i ++) { ?>
+        <li class="page-item <?= $i == $this->page ? ' active' : '' ?>"><a class="page-link" href="<?= $this->escape($this->pagerBaseUri . $i) ?>"> <?= $i ?> </a></li>
+        <?php } ?>
+        <?php if ($this->page < $this->max_page) { ?>
+        <li class="page-item"><a class="page-link" href="<?= $this->escape($this->pagerBaseUri . $this->max_page) ?>">&raquo;</a></li>
+        <?php } else { ?>
+        <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+        <?php } ?>
+    </ul>
+</nav>
