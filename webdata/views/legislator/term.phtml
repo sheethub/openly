@@ -15,8 +15,8 @@ $this->type = 'legislator';
 <?php foreach (Legislator::search(array('term' => $this->term)) as $legislator) { ?>
 <?php $data = json_decode($legislator->data) ?>
 <figure class="figure">
-    <img src="<?= $this->escape($legislator->getImageUrl(100)) ?>" class="figure-img img-fluid rounded" alt="<?= $this->escape($legislator->name) ?>" width=100">
-    <figcaption class="figure-caption"><?= $this->escape($legislator->name) ?></figcaption>
+    <img src="<?= $this->escape($legislator->getImageUrl(100)) ?>" class="figure-img img-fluid rounded-circle" alt="<?= $this->escape($legislator->name) ?>" width="100" style="border: 3px solid <?= $legislator->getParty()->getColor() ?>">
+    <figcaption class="figure-caption text-truncate"><?= $this->escape($legislator->name) ?></figcaption>
 </figure>
 
 <?php } ?>
