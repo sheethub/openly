@@ -26,6 +26,7 @@ $this->type = 'bill';
     <dd class="col-sm-9">
     <?php $objs = Legislator::parseNames($bill_data->detail->{'連署人'}, $this->bill->getTerm()) ?>
     <?php foreach ($objs as $obj) { ?>
+    <?php if (!$obj) { continue; } // XXX ?>
     <figure class="figure">
         <img src="<?= $this->escape($obj->getImageUrl(50)) ?>" class="figure-img img-fluid rounded-circle" alt="<?= $this->escape($obj->name) ?>" width="50" style="border: 3px solid <?= $obj->getParty()->getColor() ?>">
         <figcaption class="figure-caption text-truncate"><?= $this->escape($obj->name) ?></figcaption>
