@@ -11,6 +11,12 @@ class LegislatorRow extends Pix_Table_Row
         $grav_url = "https://www.gravatar.com/avatar/" . $id . "?d=" . urlencode( $default ) . "&s=" . intval($size);
         return $grav_url;
     }
+
+    public function getParty()
+    {
+        $data = json_decode($this->data);
+        return Party::getParty($data->party);
+    }
 }
 
 class Legislator extends Pix_Table
