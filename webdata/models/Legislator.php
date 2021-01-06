@@ -84,12 +84,12 @@ class Legislator extends Pix_Table
 
         $ret['高潞以用'] = '高潞．以用．巴魕剌Kawlo．Iyun．Pacidal';
 
-        $ret['時代力量立法院黨團'] = '時代力量立法院黨團';
-        $ret['台灣民眾黨立法院黨團'] = '台灣民眾黨立法院黨團';
-        $ret['台灣民眾黨黨團'] = '台灣民眾黨立法院黨團';
-        $ret['中國國民黨立法院黨團'] = '中國國民黨立法院黨團';
-        $ret['民主進步黨立法院黨團'] = '民主進步黨立法院黨團';
-        $ret['親民黨立法院黨團'] = '親民黨立法院黨團';
+        $ret['時代力量立法院黨團'] = 'party-時代力量';
+        $ret['台灣民眾黨立法院黨團'] = 'party-台灣民眾黨';
+        $ret['台灣民眾黨黨團'] = 'party-台灣民眾黨';
+        $ret['中國國民黨立法院黨團'] = 'party-中國國民黨';
+        $ret['民主進步黨立法院黨團'] = 'party-民主進步黨';
+        $ret['親民黨立法院黨團'] = 'party-親民黨';
         return $ret;
     }
 
@@ -128,6 +128,12 @@ class Legislator extends Pix_Table
             $skip .= mb_substr($str, 0, 1, 'UTF-8');
             $str = mb_substr($str, 1, 0, 'UTF-8');
         }
-        return $hit;
+        return array_map(function($n) use ($terms) {
+            if (strpos($n, 'party-') === 0) {
+                return Party::getParty(explode('-', $n)[1]);
+            } else {
+                return Legislator::search(array('name' => $n))->searchIn('term', $terms)->first();
+            }
+        }, $hit);
     }
 }
