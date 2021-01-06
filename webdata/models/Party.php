@@ -2,14 +2,21 @@
 
 class PartyRow
 {
+    public $name = '';
     public function __construct($data)
     {
         $this->_data = $data;
+        $this->name = $data['name'];
     }
 
     public function getColor()
     {
         return $this->_data['color'];
+    }
+
+    public function getParty()
+    {
+        return $this;
     }
 
     public function getImageURL($size)
