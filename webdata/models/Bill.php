@@ -2,6 +2,19 @@
 
 class BillRow extends Pix_Table_Row
 {
+    public function getTerm()
+    {
+        $data = json_decode($this->data);
+        foreach ($data->detail->{'議案流程'} as $record) {
+            if ($record->{'會期'}) {
+                $term = explode('-', $record->{'會期'})[0];
+                if ($term) {
+                    return $term;
+                }
+            }
+        }
+    }
+
     public function getDocURLs()
     {
         $docUrls = array();
