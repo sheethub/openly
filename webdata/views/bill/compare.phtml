@@ -15,6 +15,7 @@ $this->type = 'bill';
 <h3><?= $this->escape($docdata->{'對照表標題'}) ?></h3>
 <?php } ?>
 
+<?php if ($docdata->{'立法種類'} == '修正條文') { ?>
 <table class="table border">
     <thead>
         <tr>
@@ -34,6 +35,41 @@ $this->type = 'bill';
     <?php } ?>
     </tbody>
 </table>
+<?php } elseif ($docdata->{'立法種類'} == '增訂條文') { ?>
+<table class="table border">
+    <thead>
+        <tr>
+            <th width="50%">增訂條文</th>
+            <th width="50%">說明</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($docdata->{'修正記錄'} as $record) { ?>
+    <tr>
+        <td><?= $this->escape($record->{'增訂條文'}) ?></td>
+        <td><?= $this->escape($record->{'說明'}) ?></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?php } elseif ($docdata->{'立法種類'} == '制定條文') { ?>
+<table class="table border">
+    <thead>
+        <tr>
+            <th width="50%">制定條文</th>
+            <th width="50%">說明</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($docdata->{'修正記錄'} as $record) { ?>
+    <tr>
+        <td><?= $this->escape($record->{'條文'}) ?></td>
+        <td><?= $this->escape($record->{'說明'}) ?></td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<?php } ?>
 <?php } ?>
 <?= $this->partial('/common/footer.phtml', $this) ?>
 
