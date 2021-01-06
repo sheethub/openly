@@ -12,10 +12,26 @@ $this->type = 'bill';
 <h1><?= $this->escape($bill_data->detail->{'議案名稱'}) ?></h1>
 <dl class="row">
     <dt class="col-sm-3">提案人</dt>
-    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'提案人'}) ?></dd>
+    <dd class="col-sm-9">
+    <?php $objs = Legislator::parseNames($bill_data->detail->{'提案人'}, $this->bill->getTerm()) ?>
+    <?php foreach ($objs as $obj) { ?>
+    <figure class="figure">
+        <img src="<?= $this->escape($obj->getImageUrl(50)) ?>" class="figure-img img-fluid rounded-circle" alt="<?= $this->escape($obj->name) ?>" width="50" style="border: 3px solid <?= $obj->getParty()->getColor() ?>">
+        <figcaption class="figure-caption text-truncate"><?= $this->escape($obj->name) ?></figcaption>
+    </figure>
+    <?php } ?>
+    </dd>
 
     <dt class="col-sm-3">連署人</dt>
-    <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'連署人'}) ?></dd>
+    <dd class="col-sm-9">
+    <?php $objs = Legislator::parseNames($bill_data->detail->{'連署人'}, $this->bill->getTerm()) ?>
+    <?php foreach ($objs as $obj) { ?>
+    <figure class="figure">
+        <img src="<?= $this->escape($obj->getImageUrl(50)) ?>" class="figure-img img-fluid rounded-circle" alt="<?= $this->escape($obj->name) ?>" width="50" style="border: 3px solid <?= $obj->getParty()->getColor() ?>">
+        <figcaption class="figure-caption text-truncate"><?= $this->escape($obj->name) ?></figcaption>
+    </figure>
+    <?php } ?>
+    </dd>
 
     <dt class="col-sm-3">議案狀態</dt>
     <dd class="col-sm-9"><?= $this->escape($bill_data->detail->{'議案狀態'}) ?></dd>
