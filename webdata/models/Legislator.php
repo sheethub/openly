@@ -1,12 +1,25 @@
 <?php
 
 // http://data.ly.gov.tw/odw/usageFile.action?id=16&type=CSV&fname=16_CSV.csv
+class LegislatorRow extends Pix_Table_Row
+{
+    public function getImageUrl($size)
+    {
+        $data = json_decode($this->data);
+        $id = md5('lydatatw-' . $this->term . '-' . $this->name);
+        $default = $data->picUrl;
+        $grav_url = "https://www.gravatar.com/avatar/" . $id . "?d=" . urlencode( $default ) . "&s=" . intval($size);
+        return $grav_url;
+    }
+}
+
 class Legislator extends Pix_Table
 {
     public function init()
     {
         $this->_name = 'legislator';
         $this->_primary = array('term', 'name');
+        $this->_rowClass = 'LegislatorRow';
 
         $this->_columns['term'] = array('type' => 'int');
         $this->_columns['name'] = array('type' => 'varchar', 'size' => 32);
