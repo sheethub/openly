@@ -1,8 +1,10 @@
 <?php
 $this->type = 'index';
 $latest_date = Meeting::getLatestMeetingDate();
+$prev_month = strtotime('-1 month', strtotime($latest_date));
 $datepicker = new StdClass;
 $datepicker->year = explode('-', $latest_date)[0];
+$datepicker->prev_month_link = '/meeting/list/' . date('Y/d', $prev_month);
 $datepicker->month = explode('-', $latest_date)[1];
 $datepicker->events = array();
 $terms = array();
