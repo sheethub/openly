@@ -70,6 +70,7 @@ foreach ($this->events as $event) {
 <script>
 $('.datepicker-day-with-bussiness').click(function(e){
     e.preventDefault();
+    <?php if (!$this->disable_click)  { ?>
     $('#datepicker-info h2').text($(this).data('title'));
     $('#datepicker-info ol').html('');
     var events = ($(this).data('events'));
@@ -78,5 +79,6 @@ $('.datepicker-day-with-bussiness').click(function(e){
         a_dom.text(event[0]).attr('href', event[1]);
         $('#datepicker-info ol').append($('<li></li>').append(a_dom));
     }
+    <?php } ?>
 });
 </script>
