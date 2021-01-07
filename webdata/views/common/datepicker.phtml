@@ -16,7 +16,21 @@ foreach ($this->events as $event) {
 <table class="table">
     <thead>
         <tr>
-            <th colspan="7"><?= $this->year ?> 年 <?= $this->month ?> 月</th>
+            <th colspan="7">
+                <nav class="nav nav-pills nav-justified">
+                    <?php if ($this->prev_month_link) { ?>
+                    <a href="<?= $this->escape($this->prev_month_link) ?>" class="nav-link">上個月</a>
+                    <?php } else { ?>
+                    <a href="#" class="nav-link disabled">上個月</a>
+                    <?php } ?>
+                    <span class="nav-link"><?= $this->year ?> 年 <?= $this->month ?> 月</span>
+                    <?php if ($this->next_month_link) { ?>
+                    <a href="<?= $this->escape($this->next_month_link) ?>" class="nav-link">下個月</a>
+                    <?php } else { ?>
+                    <a href="#" class="nav-link disabled">下個月</a>
+                    <?php } ?>
+                </nav>
+            </th>
         </tr>
         <tr>
             <th>日</th>
