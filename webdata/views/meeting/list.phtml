@@ -1,0 +1,40 @@
+<?php
+$this->type = 'meeting';
+$latest_date = Meeting::getLatestMeetingDate();
+$datepicker = new StdClass;
+$datepicker->year = $this->year;
+$datepicker->disable_click = true;
+$datepicker->prev_month_link = '/meeting/list/' . date('Y/m', strtotime('-1 month', mktime(0, 0, 0, $this->month, 1, $this->year)));
+if (strpos($latest_date, sprintf("%04d-%02d-", $this->year, $this->month)) !== 0) {
+    $datepicker->next_month_link = '/meeting/list/' . date('Y/m', strtotime('+1 month', mktime(0, 0, 0, $this->month, 1, $this->year)));
+}
+$datepicker->month = $this->month;
+$datepicker->events = array();
+$terms = array();
+foreach (Meeting::searchByYearMonth($datepicker->year, $datepicker->month) as $meeting) {
+    $dates = json_decode($meeting->dates);
+    foreach ($dates as $d) {
+        if (strpos($d, sprintf("%04d-%02d-", $datepicker->year, $datepicker->month)) !== 0) {
+            continue;
+        }
+        $datepicker->events[] = array($d, $meeting->getName(), '#meeting-' . $meeting->meeting_id);
+    }
+}
+?>
+<?= $this->partial('common/header.phtml', $this) ?>
+<div class="row">
+    <div class="col-sm">
+        <?= $this->partial('common/datepicker.phtml', $datepicker) ?>
+    </div>
+    <div class="col-sm">
+        <h3><?= $this->year ?> 年 <?= $this->month ?> 月會議</h3>
+        <ul>
+            <?php foreach (Meeting::searchByYearMonth($datepicker->year, $datepicker->month) as $meeting) { ?>
+            <li>
+            <a href="/meeting/show/<?= $meeting->meeting_id ?>"><?= $this->escape($meeting->getName()) ?></a>(<?= implode(', ', json_decode($meeting->dates)) ?>)
+            </li>
+            <?php } ?>
+        </ul>
+    </div>
+</div>
+<?= $this->partial('common/footer.phtml', $this) ?>

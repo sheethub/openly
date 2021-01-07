@@ -4,6 +4,15 @@ class MeetingController extends Pix_Controller
 {
     public function indexAction()
     {
+        $latest_date = Meeting::getLatestMeetingDate();
+        return $this->redirect('/meeting/list/' . date('Y/m', strtotime($latest_date)));
+    }
+
+    public function listAction()
+    {
+        list(, /*meeting*/, /*list*/, $year, $month) = explode('/', $this->getURI());
+        $this->view->year = intval($year);
+        $this->view->month = intval($month);
     }
 
     public function showAction()
