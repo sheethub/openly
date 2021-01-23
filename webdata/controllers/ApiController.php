@@ -73,7 +73,7 @@ class ApiController extends Pix_Controller
         $obj->reconsideration_of = null;
         $obj->sitting_introduced = '08-04-YS-07';
         $split = function($str) {
-            $str = trim($str);
+            $str = str_replace(' ', '', $str);
             $str = str_replace('陳　瑩', '陳瑩', $str);
             $str = str_replace('范　雲', '范雲', $str);
             $str = preg_replace('#　+$#u', '', $str);
