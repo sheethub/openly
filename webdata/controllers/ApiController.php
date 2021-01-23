@@ -28,6 +28,11 @@ class ApiController extends Pix_Controller
         $obj->data = new StdClass;
         $obj->data->related = array();
 
+        $clean_law = function($content) {
+            $content = preg_replace("/\n+/", "\n", $content);
+            return $content;
+        };
+
         if ($billdata->{'立法種類'} == '修正條文' or $billdata->{'立法種類'} == '審查會版本') {
             $law = new StdClass;
             $law->type = 'lawproposal';
@@ -37,9 +42,9 @@ class ApiController extends Pix_Controller
 
             foreach ($billdata->{'修正記錄'} as $line) {
                 $law->content[] = array(
-                    $line->{'修正條文'},
-                    $line->{'現行條文'},
-                    $line->{'說明'},
+                    $clean_law($line->{'修正條文'}),
+                    $clean_law($line->{'現行條文'}),
+                    $clean_law($line->{'說明'}),
                 );
             }
             $obj->data->content = array($law);
@@ -52,8 +57,8 @@ class ApiController extends Pix_Controller
 
             foreach ($billdata->{'修正記錄'} as $line) {
                 $law->content[] = array(
-                    $line->{'條文'},
-                    $line->{'說明'},
+                    $clean_law($line->{'條文'}),
+                    $clean_law($line->{'說明'}),
                 );
             }
             $obj->data->content = array($law);
