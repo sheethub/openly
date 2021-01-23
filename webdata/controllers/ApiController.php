@@ -146,7 +146,7 @@ class ApiController extends Pix_Controller
     {
         list(, /*api*/, /*sitting*/, $term) = explode('/', $this->getURI());
         $ret = array();
-        foreach (Meeting::search(array('term' => intval($term)))->order('meeting_id DESC') as $meeting) {
+        foreach (Meeting::search(array('term' => intval($term)))->order('term DESC, session_period DESC, session_times DESC, meeting_times DESC') as $meeting) {
             $data = $meeting->toArray();
             $data['data'] = json_decode($data['data']);
             $data['dates'] = json_decode($data['dates']);
