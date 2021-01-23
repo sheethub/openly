@@ -93,4 +93,20 @@ class ApiController extends Pix_Controller
         );*/
         return $this->json($obj);
     }
+
+    public function ttsmotionsAction()
+    {
+        $obj = new StdClass;
+        $obj->paging = new StdClass;
+        $obj->paging->count = 1;
+        $obj->entries = array();
+        // TODO: change this, fake data
+        foreach ($bill_obj->{'議案流程'} as $line) {
+        }
+?>
+
+    {"paging":{"count":1},"entries":[{"tts_key":"17498:154","date":"2013-10-25","source":"{\"{\\\"text\\\":\\\"12\\\",\\\"link\\\":[\\\"a\\\",8,4,7,71,\\\"12\\\"]}\",\"{\\\"text\\\":\\\"209-238\\\",\\\"link\\\":[\\\"a\\\",8,4,7,72,\\\"209-238\\\"]}\"}","sitting_id":"08-04-YS-07","chair":"{\u738b\u91d1\u5e73,\u6d2a\u79c0\u67f1}","motion_type":"{\u6cd5\u5f8b\u6848,\u6cd5\u5f8b\u6848}","summary":"\u4e94\u5341\u56db\u3001\u672c\u9662\u59d4\u54e1\u912d\u9e97\u541b\u7b4922\u4eba\u64ec\u5177\u300c\u6c11\u6cd5\u89aa\u5c6c\u7de8\u3001\u7e7c\u627f\u7de8\u90e8\u5206\u689d\u6587\u4fee\u6b63\u8349\u6848\u300d\uff0c\u8acb\u5be9\u8b70\u6848\u3002(\u66f4\u6b63\u672c)","resolution":"\u4ea4\u53f8\u6cd5\u53ca\u6cd5\u5236\u59d4\u54e1\u6703\u5be9\u67e5\u3002(p.14 [\"g\",102,58,1,14,14])","progress":"\u4e00\u8b80","topic":null,"category":null,"tags":null,"bill_refs":"{1150L15359}","memo":null,"agencies":null,"speakers":null}]}
+<?php
+        exit;
+    }
 }
