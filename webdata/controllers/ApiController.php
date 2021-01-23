@@ -111,4 +111,30 @@ class ApiController extends Pix_Controller
 <?php
         exit;
     }
+
+    public function legislatorAction()
+    {
+        list(, /*api*/, /*legislator*/, $term) = explode('/', $this->getURI());
+        $records = array();
+        $parseConstuiency = function($str) {
+            // TODO: 桃園市第五選區 => ["TAO",5]
+            return array();
+        };
+
+        foreach (Legislator::search(1) as $legislator) {
+            if ($term and $term != $legislator->term) {
+                continue;
+            }
+            $data = json_decode($legislator->data);
+            $records[] = array(
+                'name' => $legislator->name,
+                'party' => $data->party,
+                'caucus' => $data->partyGroup,
+                'constuiency' => $parseConstuiency($data->areaName),
+            );
+        }
+
+        return $this->json($records);
+
+    }
 }
