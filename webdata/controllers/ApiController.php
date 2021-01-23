@@ -28,7 +28,7 @@ class ApiController extends Pix_Controller
         $obj->data = new StdClass;
         $obj->data->related = array();
 
-        if ($billdata->{'立法種類'} == '修正條文') {
+        if ($billdata->{'立法種類'} == '修正條文' or $billdata->{'立法種類'} == '審查會版本') {
             $law = new StdClass;
             $law->type = 'lawproposal';
             $law->name = $billdata->{'對照表標題'};
