@@ -67,3 +67,6 @@ Model:
   - billno
   - data
 
+
+License:
+BSD License
