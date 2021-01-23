@@ -140,6 +140,19 @@ class ApiController extends Pix_Controller
         }
 
         return $this->json($records);
+    }
 
+    public function sittingAction()
+    {
+        list(, /*api*/, /*sitting*/, $term) = explode('/', $this->getURI());
+        $ret = array();
+        foreach (Meeting::search(array('term' => intval($term)))->order('meeting_id DESC') as $meeting) {
+            $data = $meeting->toArray();
+            $data['data'] = json_decode($data['data']);
+            $data['dates'] = json_decode($data['dates']);
+            $data['name'] = $meeting->getName();
+            $ret[] = $data;
+        }
+        return $this->json($ret);
     }
 }
